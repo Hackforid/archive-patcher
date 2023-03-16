@@ -1,107 +1,53 @@
 
 buildscript {
+    apply from: rootProject.file("versions.gradle")
     repositories {
-        jcenter()
+        mavenLocal()
+
+        maven {
+            url 'https://nexus.corp.kuaishou.com/nexus/content/groups/public/'
+
+            credentials {
+                username "maven_user"
+                password "woShiMiMamuserwoiesldf"
+            }
+            authentication {
+                basic(BasicAuthentication)
+                digest(DigestAuthentication)
+            }
+        }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0-rc2'
+        classpath "com.android.tools.build:gradle:${versions.agp}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31"
     }
-}
-
-plugins {
-    id "com.jfrog.bintray" version "1.7.3"
-}
-
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-
-version = 1.0
-
-subprojects.each { subproject -> evaluationDependsOn( subproject.path ) }
-jar.dependsOn subprojects.tasks['classes']
-jar {
-    manifest {
-        attributes 'Implementation-Title': 'Archive Patcher',
-        	'Implementation-Version': version,
-            'Implementation-Vendor': 'https://github.com/andrewhayden/archive-patcher'
-    }
-    baseName = project.name
-    subprojects.each { subproject ->
-        from subproject.sourceSets.main.output
-    }
-    from "LICENSE"
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    manifest {
-        attributes 'Implementation-Title': 'Archive Patcher',
-        	'Implementation-Version': version,
-            'Implementation-Vendor': 'https://github.com/andrewhayden/archive-patcher'
-    }
-    baseName = project.name
-    classifier = 'sources'
-    subprojects.each { subproject ->
-        from subproject.sourceSets.main.allSource
-    }
-    from "LICENSE"
-}
-
-task javadocJar (type: Jar, dependsOn: javadoc) {
-    manifest {
-        attributes 'Implementation-Title': 'Archive Patcher',
-        	'Implementation-Version': version,
-            'Implementation-Vendor': 'https://github.com/andrewhayden/archive-patcher'
-    }
-    baseName = project.name
-    classifier = 'javadoc'
-    subprojects.each { subproject ->
-        from subproject.javadoc.destinationDir
-    }
-    from "LICENSE"
-}
-
-dependencies {
-    compile project(':tools')
 }
 
 allprojects {
+    apply from: rootProject.file("versions.gradle")
     repositories {
-        jcenter()
-    }
-}
+        mavenLocal()
 
-artifacts {
-    archives jar
-    archives sourcesJar
-    archives javadocJar
-}
+        maven {
+            url 'https://nexus.corp.kuaishou.com/nexus/content/groups/public/'
 
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            from components.java
-            groupId 'com.google'
-            artifactId 'archivepatcher'
-            version version
+            credentials {
+                username "maven_user"
+                password "woShiMiMamuserwoiesldf"
+            }
+            authentication {
+                basic(BasicAuthentication)
+                digest(DigestAuthentication)
+            }
         }
+
     }
 }
 
-bintray {
-    user = System.getenv('BINTRAY_USER')
-    key = System.getenv('BINTRAY_KEY')
-    publications = ['MyPublication']
-    filesSpec {
-        from 'build/libs'
-        into '/'
-    }
-    pkg {
-        repo = 'Maven'
-        name = 'archive-patcher'
-        desc = 'Archive Patcher'
-        licenses = ['Apache-2.0']
-        websiteUrl = 'https://github.com/andrewhayden/archive-patcher'
-        issueTrackerUrl = 'https://github.com/andrewhayden/archive-patcher/issues'
-        vcsUrl = 'https://github.com/andrewhayden/archive-patcher.git'
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+dependencies {
+//    implementation project(':tools')
 }

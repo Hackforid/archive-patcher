@@ -1,0 +1,24 @@
+def versions = [:]
+
+ext.versions = versions
+
+
+// base
+versions.compileSdkVersion = 31
+versions.buildToolsVersion = "30.0.3"
+versions.minSdkVersion = 18
+versions.targetSdkVersion = 26
+
+
+versions.min_agp = "3.4.2"
+versions.agp = "7.0.1"
+
+versions.appcompat = "1.1.0"
+versions.kotlin = "1.4.10"
+versions.kotlin_coroutines = "1.3.7"
+versions.asuka = "1.1.0"
+versions.bytecode = '1.1.0'
+
+versions.fresco = "2.4.0"
+versions.gson = "2.8.5"
+versions.ioc = "3.0.0"
