@@ -2,16 +2,23 @@
 
 apply plugin: 'java'
 
-//def mainClassName = 'com.google.archivepatcher.tools.FileByFileTool'
-//jar {
-//    manifest {
-//        attributes "Main-Class": mainClassName
-//    }
-//
-//    from {
-//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-//    }
-//}
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+def mainClassName = 'com.google.archivepatcher.tools.FileByFileTool'
+//def mainClassName = 'com.google.archivepatcher.tools.PatchExplainerTool'
+jar {
+    manifest {
+        attributes "Main-Class": mainClassName
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy(DuplicatesStrategy.INCLUDE)
+}
 
 dependencies {
     implementation project(':applier')
