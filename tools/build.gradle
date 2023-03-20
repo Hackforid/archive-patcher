@@ -2,16 +2,16 @@
 
 apply plugin: 'java'
 
-def mainClassName = 'com.google.archivepatcher.tools.FileByFileTool'
-jar {
-    manifest {
-        attributes "Main-Class": mainClassName
-    }
-
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
+//def mainClassName = 'com.google.archivepatcher.tools.FileByFileTool'
+//jar {
+//    manifest {
+//        attributes "Main-Class": mainClassName
+//    }
+//
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
 
 dependencies {
     implementation project(':applier')
